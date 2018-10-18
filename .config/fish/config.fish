@@ -6,10 +6,12 @@ set -x ANDROID_HOME ~/Library/Android/sdk
 set -x PATH /usr/local/bin $PATH
 
 # Go
+if which go
 set -x GOPATH $HOME/Go
 set -x GOROOT /usr/local/opt/go/libexec
 set -x PATH $PATH $GOPATH/bin
 set -x PATH $PATH $GOROOT/bin
+end
 
 function fish_prompt --description 'Write out the prompt'
     # Just calculate these once, to save a few cycles when displaying the prompt
