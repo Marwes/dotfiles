@@ -43,3 +43,10 @@ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 pip3 install neovim
+
+
+git config --global merge.tool vimdiff
+git config --global mergetool.prompt true
+git config --global mergetool.vimdiff.cmd "nvim -d \$LOCAL \$REMOTE \$MERGED -c '\$wincmd w' -c 'wincmd J'"
+git config --global difftool.prompt false
+git config --global diff.tool vimdiff
