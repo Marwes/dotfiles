@@ -7,3 +7,6 @@ rls.toml
 *.swo
 *.swp
 
+
+perf.data
+perf.data.old
