@@ -35,7 +35,7 @@ which rustup || (curl https://sh.rustup.rs -sSf | sh && \
     rustup component add rustfmt-preview rls-preview &&
     rustup install nightly && \
     rustup component add --toolchain nightly rustfmt-preview rls-preview &&
-    cargo install cargo-watch ripgrep)
+    cargo install cargo-watch cargo-tree cargo-outdated ripgrep)
 
 if [ ! -f ~/.config/nvim]; then
     (cd ~/.config/ && git clone https://github.com/Marwes/vim-config nvim)
