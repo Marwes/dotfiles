@@ -15,7 +15,7 @@ chmod u+x nvim.appimage
 sudo mv ./nvim.appimage /usr/local/bin/nvim
 
 # docker
-sudo apt-get install \
+sudo apt-get install -y \
     apt-transport-https \
     ca-certificates \
     curl \
