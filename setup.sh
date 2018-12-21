@@ -14,6 +14,31 @@ curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimag
 chmod u+x nvim.appimage
 sudo mv ./nvim.appimage /usr/local/bin/nvim
 
+if [ ! -f ~/.config/nvim]; then
+    (cd ~/.config/ && git clone https://github.com/Marwes/vim-config nvim)
+fi
+
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+pip3 install neovim
+
+git config --global merge.tool vimdiff
+git config --global mergetool.prompt true
+git config --global mergetool.vimdiff.cmd "nvim -d \$LOCAL \$REMOTE \$MERGED -c '\$wincmd w' -c 'wincmd J'"
+git config --global difftool.prompt false
+git config --global diff.tool vimdiff
+
+
+# Rust
+which rustup || (curl https://sh.rustup.rs -sSf | sh && \
+    . $HOME/.cargo/env && \
+    rustup component add rustfmt-preview rls-preview &&
+    rustup install nightly && \
+    rustup component add --toolchain nightly rustfmt-preview rls-preview &&
+    cargo install cargo-watch cargo-tree cargo-outdated ripgrep)
+
+
 # docker
 sudo apt-get install -y \
     apt-transport-https \
@@ -28,27 +53,3 @@ sudo add-apt-repository \
 sudo apt-get install docker-ce -y
 sudo usermod -a -G docker $USER
 pip3 install --user docker-compose
-
-
-which rustup || (curl https://sh.rustup.rs -sSf | sh && \
-    . $HOME/.cargo/env && \
-    rustup component add rustfmt-preview rls-preview &&
-    rustup install nightly && \
-    rustup component add --toolchain nightly rustfmt-preview rls-preview &&
-    cargo install cargo-watch cargo-tree cargo-outdated ripgrep)
-
-if [ ! -f ~/.config/nvim]; then
-    (cd ~/.config/ && git clone https://github.com/Marwes/vim-config nvim)
-fi
-
-curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-pip3 install neovim
-
-
-git config --global merge.tool vimdiff
-git config --global mergetool.prompt true
-git config --global mergetool.vimdiff.cmd "nvim -d \$LOCAL \$REMOTE \$MERGED -c '\$wincmd w' -c 'wincmd J'"
-git config --global difftool.prompt false
-git config --global diff.tool vimdiff
