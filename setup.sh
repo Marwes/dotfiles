@@ -29,6 +29,9 @@ git config --global mergetool.vimdiff.cmd "nvim -d \$LOCAL \$REMOTE \$MERGED -c 
 git config --global difftool.prompt false
 git config --global diff.tool vimdiff
 
+cp .gitignore ~/
+git config --global core.excludesfile "$HOME/.gitignore"
+
 
 # Rust
 which rustup || (curl https://sh.rustup.rs -sSf | sh && \
