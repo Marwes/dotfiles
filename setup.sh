@@ -16,6 +16,7 @@ sudo mv ./nvim.appimage /usr/local/bin/nvim
 
 if [ ! -f ~/.config/nvim ]; then
     (cd ~/.config/ && git clone https://github.com/Marwes/vim-config nvim)
+    nvim -c 'PlugInstall|qa'
 fi
 
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
