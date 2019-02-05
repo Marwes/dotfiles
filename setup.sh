@@ -15,7 +15,9 @@ chmod u+x nvim.appimage
 sudo mv ./nvim.appimage /usr/local/bin/nvim
 
 if [ ! -f ~/.config/nvim ]; then
-    (cd ~/.config/ && git clone https://github.com/Marwes/vim-config nvim)
+    (mkdir -p ~/.config && \
+        cd ~/.config/ && \
+        git clone https://github.com/Marwes/vim-config nvim)
     nvim -c 'PlugInstall|qa'
 fi
 
