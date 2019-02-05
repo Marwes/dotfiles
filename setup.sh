@@ -10,21 +10,25 @@ git config --global user.email ${EMAIL}
 sudo apt-get update
 sudo apt-get install curl tmux fish python3-pip pkg-config libssl-dev -y
 
-curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
-chmod u+x nvim.appimage
-sudo mv ./nvim.appimage /usr/local/bin/nvim
+install_nvim() {
+    curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+    chmod u+x nvim.appimage
+    sudo mv ./nvim.appimage /usr/local/bin/nvim
 
-if [ ! -f ~/.config/nvim ]; then
-    (mkdir -p ~/.config && \
-        cd ~/.config/ && \
-        git clone https://github.com/Marwes/vim-config nvim)
-    nvim -c 'PlugInstall|qa'
-fi
+    if [ ! -f ~/.config/nvim ]; then
+        (mkdir -p ~/.config && \
+            cd ~/.config/ && \
+            git clone https://github.com/Marwes/vim-config nvim)
+        nvim -c 'PlugInstall|qa'
+    fi
 
-curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-pip3 install neovim
+    pip3 install neovim
+}
+
+install_nvim &
 
 git config --global merge.tool vimdiff
 git config --global mergetool.prompt true
@@ -36,25 +40,32 @@ cp .gitignore ~/
 git config --global core.excludesfile "$HOME/.gitignore"
 
 
-# Rust
-which rustup || (curl https://sh.rustup.rs -sSf | sh && \
-    . $HOME/.cargo/env && \
-    rustup component add rustfmt-preview rls-preview &&
-    rustup install nightly && \
-    rustup component add --toolchain nightly rustfmt-preview rls-preview &&
-    cargo install cargo-watch cargo-tree cargo-outdated ripgrep)
+install_rust() {
+    (curl https://sh.rustup.rs -sSf | sh && \
+        . $HOME/.cargo/env && \
+        rustup component add rustfmt-preview rls-preview &&
+        rustup install nightly && \
+        rustup component add --toolchain nightly rustfmt-preview rls-preview &&
+        cargo install cargo-watch cargo-tree cargo-outdated ripgrep)
+}
 
+which rustup || install_rust &
 
-# docker
-sudo apt-get install -y \
-    apt-transport-https \
-    ca-certificates \
-    software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(lsb_release -cs) \
-   stable"
-sudo apt-get install docker-ce -y
-sudo usermod -a -G docker $USER
-pip3 install --user docker-compose
+install_docker() {
+    sudo apt-get install -y \
+        apt-transport-https \
+        ca-certificates \
+        software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository \
+       "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+       $(lsb_release -cs) \
+       stable"
+    sudo apt-get install docker-ce -y
+    sudo usermod -a -G docker $USER
+    pip3 install --user docker-compose
+}
+
+install_docker &
+
+wait
