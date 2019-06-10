@@ -8,7 +8,7 @@ EMAIL=$1
 git config --global user.email ${EMAIL}
 
 sudo apt-get update
-sudo apt-get install tmux fish python3-pip pkg-config libssl-dev -y
+sudo apt-get install curl tmux fish python3-pip pkg-config libssl-dev -y
 
 curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
 chmod u+x nvim.appimage
@@ -47,7 +47,6 @@ which rustup || (curl https://sh.rustup.rs -sSf | sh && \
 sudo apt-get install -y \
     apt-transport-https \
     ca-certificates \
-    curl \
     software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository \
