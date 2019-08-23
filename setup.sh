@@ -7,23 +7,34 @@ git config --global user.name "Markus Westerlind"
 EMAIL=$1
 git config --global user.email ${EMAIL}
 
-sudo apt-get update
-sudo apt-get install curl tmux fish python3-pip pkg-config libssl-dev -y
+
+if [ "$(uname -s)" == "Darwin" ]; then
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    brew install fish tmux python3
+else
+    sudo apt-get update
+    sudo apt-get install curl fish tmux python3-pip pkg-config libssl-dev -y
+fi
 
 install_nvim() {
-    curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
-    chmod u+x nvim.appimage
-    sudo mv ./nvim.appimage /usr/local/bin/nvim
+    if [ "$(uname -s)" == "Darwin" ]; then
+        brew install neovim
+    else
+        curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+        chmod u+x nvim.appimage
+        sudo mv ./nvim.appimage /usr/local/bin/nvim
+    fi
 
     if [ ! -f ~/.config/nvim ]; then
         (mkdir -p ~/.config && \
             cd ~/.config/ && \
             git clone https://github.com/Marwes/vim-config nvim)
+
+        curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
         nvim -c 'PlugInstall|qa'
     fi
-
-    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
     pip3 install neovim
 }
