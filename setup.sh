@@ -25,7 +25,7 @@ install_nvim() {
         sudo mv ./nvim.appimage /usr/local/bin/nvim
     fi
 
-    if [ ! -f ~/.config/nvim ]; then
+    if [ ! -d ~/.config/nvim ]; then
         (mkdir -p ~/.config && \
             cd ~/.config/ && \
             git clone https://github.com/Marwes/vim-config nvim)
