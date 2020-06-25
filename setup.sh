@@ -52,7 +52,7 @@ git config --global core.excludesfile "$HOME/.gitignore"
 
 
 install_rust() {
-    (curl https://sh.rustup.rs -sSf | sh && \
+    (curl https://sh.rustup.rs -sSf > rustup.sh && sh rustup.sh -y && rm rustup.sh && \
         . $HOME/.cargo/env && \
         rustup component add rustfmt-preview rls-preview &&
         rustup install nightly && \
