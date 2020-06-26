@@ -1,28 +1,30 @@
 #!/usr/bin/env bash
 set -eux
 
-cp -r .config .tmux.conf ~/
-
-git config --global user.name "Markus Westerlind"
-EMAIL=$1
-git config --global user.email ${EMAIL}
-
-
-if [ "$(uname -s)" == "Darwin" ]; then
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    brew install fish tmux python3
-else
-    sudo apt-get update
-    sudo apt-get install curl fish tmux python3-pip pkg-config libssl-dev -y
-fi
+# 3 cp -r .config .tmux.conf ~/
+# 3
+# 3 git config --global user.name "Markus Westerlind"
+# 3 EMAIL=$1
+# 3 git config --global user.email ${EMAIL}
+# 3
+# 3
+# 3 if [ "$(uname -s)" == "Darwin" ]; then
+# 3     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+# 3     brew install fish tmux python3
+# 3 else
+# 3     sudo apt-get update
+# 3     sudo apt-get install curl fish tmux python3-pip pkg-config libssl-dev -y
+# 3 fi
 
 install_nvim() {
     if [ "$(uname -s)" == "Darwin" ]; then
         brew install neovim
     else
-        curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
-        chmod u+x nvim.appimage
-        sudo mv ./nvim.appimage /usr/local/bin/nvim
+        curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
+        tar xvf nvim-linux64.tar.gz
+        chmod +x nvim-linux64/bin/nvim
+        sudo cp -r nvim-linux64/* /usr/local/
+        rm -r nvim-linux64 nvim-linux64.tar.gz
     fi
 
     if [ ! -d ~/.config/nvim ]; then
@@ -39,7 +41,8 @@ install_nvim() {
     pip3 install neovim
 }
 
-install_nvim &
+install_nvim
+exit 1
 
 git config --global merge.tool vimdiff
 git config --global mergetool.prompt true
