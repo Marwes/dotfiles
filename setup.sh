@@ -13,7 +13,7 @@ if [ "$(uname -s)" == "Darwin" ]; then
     brew install fish tmux python3
 else
     sudo apt-get update
-    sudo apt-get install curl fish tmux python3-pip pkg-config libssl-dev -y
+    sudo apt-get install curl cmake fish tmux python3-pip pkg-config libssl-dev linux-tools-common -y
 fi
 
 install_nvim() {
@@ -59,7 +59,7 @@ install_rust() {
         rustup component add rustfmt-preview rls-preview &&
         rustup install nightly && \
         rustup component add --toolchain nightly rustfmt-preview rls-preview &&
-        cargo install cargo-watch cargo-tree cargo-outdated ripgrep)
+        cargo install cargo-watch cargo-tree cargo-outdated ripgrep alacritty fd-find)
 }
 
 which rustup || install_rust &
