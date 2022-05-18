@@ -7,13 +7,18 @@ git config --global user.name "Markus Westerlind"
 EMAIL=$1
 git config --global user.email ${EMAIL}
 
+if [ ! -f ~/.ssh/id_rsa ]; then
+    (cd ~/.ssh/ && ssh-keygen -t rsa -b 4096 -C ${EMAIL})
+fi
+
 
 if [ "$(uname -s)" == "Darwin" ]; then
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     brew install fish tmux python3
 else
     sudo apt-get update
-    sudo apt-get install curl cmake fish tmux python3-pip pkg-config libssl-dev linux-tools-common -y
+    sudo apt-get install curl cmake fish tmux python3-pip pkg-config libssl-dev linux-tools-common xclip -y
+    sudo apt-get install libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev -y # For alacritty
 fi
 
 install_nvim() {
@@ -56,9 +61,9 @@ git config --global core.excludesfile "$HOME/.gitignore"
 install_rust() {
     (curl https://sh.rustup.rs -sSf > rustup.sh && sh rustup.sh -y && rm rustup.sh && \
         . $HOME/.cargo/env && \
-        rustup component add rustfmt-preview rls-preview &&
+        rustup component add rustfmt-preview &&
         rustup install nightly && \
-        rustup component add --toolchain nightly rustfmt-preview rls-preview &&
+        rustup component add --toolchain nightly rustfmt-preview rust-analysis &&
         cargo install cargo-watch cargo-tree cargo-outdated ripgrep alacritty fd-find)
 }
 
