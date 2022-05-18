@@ -47,17 +47,20 @@ install_nvim() {
     pip3 install neovim
 }
 
-install_nvim
+which rustup || install_nvim
 
-git config --global merge.tool vimdiff
-git config --global mergetool.prompt true
-git config --global mergetool.vimdiff.cmd "nvim -d \$LOCAL \$REMOTE \$MERGED -c '\$wincmd w' -c 'wincmd J'"
-git config --global difftool.prompt false
-git config --global diff.tool vimdiff
+configurate_git() {
+    git config --global merge.tool vimdiff
+    git config --global mergetool.prompt true
+    git config --global mergetool.vimdiff.cmd "nvim -d \$LOCAL \$REMOTE \$MERGED -c '\$wincmd w' -c 'wincmd J'"
+    git config --global difftool.prompt false
+    git config --global diff.tool vimdiff
 
-cp .gitignore ~/
-git config --global core.excludesfile "$HOME/.gitignore"
+    cp .gitignore ~/
+    git config --global core.excludesfile "$HOME/.gitignore"
+}
 
+configurate_git &
 
 install_rust() {
     (curl https://sh.rustup.rs -sSf > rustup.sh && sh rustup.sh -y && rm rustup.sh && \
@@ -86,5 +89,15 @@ install_docker() {
 }
 
 install_docker &
+
+install_go() {
+    GO_VERSION=1.18.2
+    curl -LO https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz
+    sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz
+
+    go install golang.org/x/tools/gopls@latest
+}
+
+install_go &
 
 wait
