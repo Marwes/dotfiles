@@ -25,7 +25,8 @@ install_nvim() {
     if [ "$(uname -s)" == "Darwin" ]; then
         brew install neovim
     else
-        curl -LO https://github.com/neovim/neovim/releases/download/v0.5.1/nvim-linux64.tar.gz
+        NVIM_VERSION=v0.7.0
+        curl -LO https://github.com/neovim/neovim/releases/download/$NVIM_VERSION/nvim-linux64.tar.gz
         tar xvf nvim-linux64.tar.gz
         chmod +x nvim-linux64/bin/nvim
         sudo cp -r nvim-linux64/* /usr/local/
