@@ -1,12 +1,12 @@
 set -x VISUAL nvim
 set -x EDITOR $VISUAL
 set -x ANDROID_HOME ~/Library/Android/sdk
-set -x PATH /usr/local/bin $PATH
+set -x PATH $PATH /usr/local/bin
+set -x PKG_CONFIG $HOME/Code/pkg-config/pkg-config
 
 # Go
-if which go
+if which go >/dev/null
 set -x GOPATH $HOME/Go
-set -x GOROOT /usr/local/opt/go/libexec
 set -x PATH $PATH $GOPATH/bin
 set -x PATH $PATH $GOROOT/bin
 end

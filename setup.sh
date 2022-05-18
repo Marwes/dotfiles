@@ -17,7 +17,7 @@ if [ "$(uname -s)" == "Darwin" ]; then
     brew install fish tmux python3
 else
     sudo apt-get update
-    sudo apt-get install curl cmake fish tmux python3-pip pkg-config libssl-dev linux-tools-common xclip -y
+    sudo apt-get install curl cmake fish tmux python3-pip pkg-config libssl-dev linux-tools-common xclip htop -y
     sudo apt-get install libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev -y # For alacritty
 fi
 
@@ -67,7 +67,7 @@ install_rust() {
         . $HOME/.cargo/env && \
         rustup component add rustfmt-preview &&
         rustup install nightly && \
-        rustup component add --toolchain nightly rustfmt-preview rust-analysis &&
+        rustup component add --toolchain nightly rustfmt-preview rust-analyzer-preview &&
         cargo install cargo-watch cargo-tree cargo-outdated ripgrep alacritty fd-find)
 }
 
