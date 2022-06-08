@@ -68,7 +68,7 @@ install_rust() {
         rustup component add rustfmt-preview &&
         rustup install nightly && \
         rustup component add --toolchain nightly rustfmt-preview rust-analyzer-preview &&
-        cargo install cargo-watch cargo-tree cargo-outdated ripgrep alacritty fd-find clog-cli)
+        cargo install cargo-watch cargo-tree cargo-outdated ripgrep alacritty fd-find clog-cli cargo-release)
 }
 
 which rustup || install_rust &
