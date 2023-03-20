@@ -36,7 +36,7 @@ install_nvim() {
     if [ ! -d ~/.config/nvim ]; then
         (mkdir -p ~/.config && \
             cd ~/.config/ && \
-            git clone git@github.com:Marwes/vim-config nvim)
+            git clone https://github.com/Marwes/vim-config nvim)
 
         curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
             https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -74,18 +74,21 @@ install_rust() {
 which rustup || install_rust &
 
 install_docker() {
-    sudo apt-get install -y \
-        apt-transport-https \
-        ca-certificates \
-        software-properties-common
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    sudo add-apt-repository \
-       "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-       $(lsb_release -cs) \
-       stable"
-    sudo apt-get install docker-ce -y
-    sudo usermod -a -G docker $USER
-    pip3 install --user docker-compose
+    if [ "$(uname -s)" == "Darwin" ]; then
+    else
+        sudo apt-get install -y \
+            apt-transport-https \
+            ca-certificates \
+            software-properties-common
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        sudo add-apt-repository \
+           "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+           $(lsb_release -cs) \
+           stable"
+        sudo apt-get install docker-ce -y
+        sudo usermod -a -G docker $USER
+        pip3 install --user docker-compose
+    fi
 }
 
 install_docker &
@@ -98,6 +101,6 @@ install_go() {
     go install golang.org/x/tools/gopls@latest
 }
 
-install_go &
+# install_go &
 
 wait
