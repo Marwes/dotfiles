@@ -5,6 +5,7 @@
 rls.toml
 
 *.sw?
+*.tmp
 
 perf.data
 perf.data.old
